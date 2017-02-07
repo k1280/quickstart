@@ -36,4 +36,15 @@ export class HeroService {
     return this.getHeroes()
       .then(heroes => heroes.find(hero => hero.id === id));
   }
+
+  private headers = new Headers({ 'Content-Type': 'application/json' });
+
+  update(hero: Hero): Promise<Hero> {
+    const url = '${this.heroesUrl}/${hero.id}';
+    return this.http
+      .put(url, JSON.stringify(hero), { headers: this.headers })
+      .toPromise()
+      .then(() => hero)
+      .catch(this.handleError);
+  }
 }
